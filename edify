@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# GLOBALS
+USAGE="Usage: `basename $0` <init|vim|cleanup>"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# CONFIG
+name='Edward'
+
+if [! -n "$1"]
+then
+  echo $USAGE
+  exit
+fi
+
+if [ "init" -eq "$1" ]
+then
+  alias edify="$DIR/edify"
+  echo "Created alias edify"
+  mkdir -p $DIR/tmp
+  echo "Created tmp directory"
+  exit
+fi
+
+if [ "vim" -eq "$1" ]
+then
+  # check for dependencies: vim
+  hash vim 2>/dev/null || { echo >&2 "Vim is not installed."; exit }
+
+  mkdir -p $DIR/tmp/vim/
+  # move original .vim* files to tmp/
+  cp -r ~/.vim* $DIR/tmp/vim/
+
+  cp -r $DIR/config/vim/* ~
+
+  # might need to get vundle
+  mkdir ~/.vim/bundle/
+
+
+  # bundle install vim plugins
+  vim +BundleInstall +qall
+
+  touch ~/.vim/.edified
+
+  echo "Welcome $name..."
+  echo 'To restore original config: edify cleanup'
+fi
+
+if [ "cleanup" -eq "$1" ]
+then
+  # check the existance of the .edified file
+  if [ ! -f ~/.vim/.edified ]
+  then
+    echo "System is not edified."
+    exit
+  else
+    rm -rf ~/.vim
+    cp -r $DIR/tmp/vim/* ~
+    echo "Files are restored to their original location"
+    echo "Deleting .edify folder"
+    rm -rf $DIR
+    echo "Unaliasing edify command"
+    unalias edify
+    echo "Goodbye $name..."
+    exit
+  fi
+fi
+
+exit
