@@ -55,7 +55,7 @@ then
     echo "System is not edified."
     return
   else
-    rm -rf ~/.vim
+    rm -rf ~/.vim*
     cp -r $DIR/tmp/vim/.vim* ~
     echo "Files are restored to their original location"
     echo "Deleting .edify folder"
