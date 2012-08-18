@@ -35,6 +35,7 @@ then
 
   # might need to get vundle
   mkdir ~/.vim/bundle/
+  git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 
 
   # bundle install vim plugins
