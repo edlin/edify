@@ -34,7 +34,7 @@ then
   cp -r $DIR/config/vim/* ~
 
   # might need to get vundle
-  mkdir ~/.vim/bundle/
+  mkdir -p ~/.vim/bundle/
 
 
   # bundle install vim plugins
